@@ -1,0 +1,6 @@
+messages:
+  - role: system
+    content: You are a helpful assistant.
+  - role: user
+    content: Brief history of Wikipedia.
+model: openai/gpt-4o
