@@ -1,0 +1,34 @@
+# Python dependencies for LLM evaluation
+
+# Core
+pyyaml>=6.0
+python-dotenv>=1.0.0
+
+# Evaluation SDKs
+azure-ai-evaluation>=1.0.0
+openai>=1.0.0
+anthropic>=0.18.0
+
+# Data handling
+pandas>=2.0.0
+numpy>=1.24.0
+
+# HTTP client
+requests>=2.31.0
+httpx>=0.25.0
+
+# Code execution (sandboxed)
+# Note: Use with caution - code execution should be sandboxed
+# subprocess is built-in
+
+# NLP metrics
+nltk>=3.8.0
+sacrebleu>=2.3.0  # For BLEU score
+
+# Utilities
+tqdm>=4.65.0
+rich>=13.0.0  # Pretty terminal output
+
+# Optional: For running notebooks
+jupyter>=1.0.0
+ipykernel>=6.0.0

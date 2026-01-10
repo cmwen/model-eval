@@ -1,0 +1,134 @@
+messages:
+  - role: system
+    content: |
+      You are a data extraction assistant. 
+      Always respond with valid JSON only - no markdown, no explanations, just the JSON object.
+  - role: user
+    content: "{{query}}"
+model: openai/gpt-4o
+testData:
+  # Simple JSON
+  - query: |
+      Extract the person's information from this text and return as JSON:
+      "John Smith is 32 years old and works as a software engineer at Google."
+      
+      Schema: {"name": string, "age": number, "job": string, "company": string}
+    expected: |
+      {"name": "John Smith", "age": 32, "job": "software engineer", "company": "Google"}
+    category: "extraction"
+    difficulty: "easy"
+  
+  # Nested JSON
+  - query: |
+      Convert this order to JSON:
+      Order #12345 for customer Jane Doe (jane@email.com)
+      - 2x Widget A at $10.00 each
+      - 1x Widget B at $25.00
+      
+      Schema: {
+        "orderId": string,
+        "customer": {"name": string, "email": string},
+        "items": [{"name": string, "quantity": number, "price": number}],
+        "total": number
+      }
+    expected: |
+      {
+        "orderId": "12345",
+        "customer": {"name": "Jane Doe", "email": "jane@email.com"},
+        "items": [
+          {"name": "Widget A", "quantity": 2, "price": 10.00},
+          {"name": "Widget B", "quantity": 1, "price": 25.00}
+        ],
+        "total": 45.00
+      }
+    category: "nested_json"
+    difficulty: "medium"
+  
+  # Array Generation
+  - query: |
+      Generate a JSON array of the first 5 prime numbers with their properties.
+      Schema for each: {"value": number, "position": number, "isEven": boolean}
+    expected: |
+      [
+        {"value": 2, "position": 1, "isEven": true},
+        {"value": 3, "position": 2, "isEven": false},
+        {"value": 5, "position": 3, "isEven": false},
+        {"value": 7, "position": 4, "isEven": false},
+        {"value": 11, "position": 5, "isEven": false}
+      ]
+    category: "array_generation"
+    difficulty: "easy"
+  
+  # Complex Schema
+  - query: |
+      Extract meeting details from this email:
+      
+      "Hi team, let's meet on March 15, 2024 at 2:30 PM in Conference Room B 
+      to discuss Q1 results. Required attendees: Alice, Bob. Optional: Charlie.
+      Expected duration: 1 hour."
+      
+      Return JSON with: date (ISO format), time (24h), location, topic, 
+      attendees (with required boolean), durationMinutes
+    expected: |
+      {
+        "date": "2024-03-15",
+        "time": "14:30",
+        "location": "Conference Room B",
+        "topic": "Q1 results",
+        "attendees": [
+          {"name": "Alice", "required": true},
+          {"name": "Bob", "required": true},
+          {"name": "Charlie", "required": false}
+        ],
+        "durationMinutes": 60
+      }
+    category: "complex_extraction"
+    difficulty: "hard"
+  
+  # Enum Handling
+  - query: |
+      Classify these customer feedback entries and return as JSON array:
+      1. "Great product, love it!" 
+      2. "Shipping was delayed by 2 weeks"
+      3. "Works as expected"
+      
+      Schema: [{"id": number, "text": string, "sentiment": "positive"|"negative"|"neutral"}]
+    expected: |
+      [
+        {"id": 1, "text": "Great product, love it!", "sentiment": "positive"},
+        {"id": 2, "text": "Shipping was delayed by 2 weeks", "sentiment": "negative"},
+        {"id": 3, "text": "Works as expected", "sentiment": "neutral"}
+      ]
+    category: "classification"
+    difficulty: "medium"
+  
+  # Edge Cases
+  - query: |
+      Parse this malformed address and return structured JSON:
+      "123 Main St., Apt 4B, New York, NY 10001, USA"
+      
+      Schema: {street, unit, city, state, zipCode, country}
+    expected: |
+      {
+        "street": "123 Main St.",
+        "unit": "Apt 4B",
+        "city": "New York",
+        "state": "NY",
+        "zipCode": "10001",
+        "country": "USA"
+      }
+    category: "parsing"
+    difficulty: "medium"
+
+evaluators:
+  - name: JSONValidity
+    uses: custom/json-validator
+    description: Checks if output is valid JSON
+  
+  - name: SchemaCompliance
+    uses: custom/schema-validator
+    description: Validates against expected schema
+  
+  - name: Similarity
+    uses: azure-ai-evaluation/similarity
+    description: Semantic similarity to expected output

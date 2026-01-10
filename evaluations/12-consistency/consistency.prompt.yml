@@ -1,0 +1,123 @@
+messages:
+  - role: system
+    content: You are a helpful assistant.
+  - role: user
+    content: "{{query}}"
+model: openai/gpt-4o
+testData:
+  # Factual Consistency - Should be identical
+  - query: "What is the capital of France?"
+    expected: "Paris"
+    category: "factual"
+    difficulty: "easy"
+    runs: 5
+    expected_consistency: "high"
+  
+  - query: "What is 2 + 2?"
+    expected: "4"
+    category: "math"
+    difficulty: "easy"
+    runs: 5
+    expected_consistency: "high"
+  
+  - query: "How many days are in a week?"
+    expected: "7"
+    category: "factual"
+    difficulty: "easy"
+    runs: 5
+    expected_consistency: "high"
+  
+  # Paraphrase Consistency - Same meaning, different words
+  - queries:
+      - "What is the largest planet in our solar system?"
+      - "Which planet is the biggest in the solar system?"
+      - "Name the solar system's largest planet."
+    expected: "Jupiter"
+    category: "paraphrase"
+    difficulty: "easy"
+    expected_consistency: "high"
+  
+  # Complex Factual
+  - query: "List the first 5 elements of the periodic table in order."
+    expected: "Hydrogen, Helium, Lithium, Beryllium, Boron"
+    category: "factual_list"
+    difficulty: "medium"
+    runs: 5
+    expected_consistency: "high"
+  
+  # Opinion/Creative - May vary appropriately
+  - query: "Write a short haiku about spring."
+    expected: "A haiku about spring (content may vary)"
+    category: "creative"
+    difficulty: "medium"
+    runs: 5
+    expected_consistency: "low"
+    note: "Creative outputs should vary but maintain quality"
+  
+  # Reasoning Consistency
+  - query: "If all roses are flowers and all flowers need water, do roses need water? Explain your reasoning."
+    expected: "Yes, roses need water. [Reasoning may vary in wording but logic should be consistent]"
+    category: "reasoning"
+    difficulty: "medium"
+    runs: 5
+    expected_consistency: "high"
+  
+  # Multi-Turn Consistency
+  - conversation:
+      - user: "My name is Alice."
+        assistant: "Nice to meet you, Alice!"
+      - user: "What is my name?"
+        expected: "Alice"
+    category: "multi_turn"
+    difficulty: "easy"
+    expected_consistency: "high"
+  
+  # Temperature Sensitivity Test
+  - query: "Explain quantum computing in one sentence."
+    temperatures: [0, 0.5, 1.0]
+    category: "temperature_test"
+    difficulty: "medium"
+    note: "Compare responses at different temperatures"
+  
+  # Self-Contradiction Check
+  - queries:
+      - "Is the sky blue?"
+      - "What color is the sky during a clear day?"
+    category: "contradiction_check"
+    difficulty: "easy"
+    expected: "Both should indicate blue"
+    expected_consistency: "high"
+  
+  # Numerical Consistency
+  - query: "What is the approximate speed of light?"
+    expected: "~299,792 km/s or ~186,000 miles/s"
+    category: "numerical"
+    difficulty: "medium"
+    runs: 5
+    expected_consistency: "high"
+    note: "Number should be consistent, units may vary"
+
+evaluators:
+  - name: SelfBLEU
+    uses: custom/self-bleu
+    description: Measures response similarity across runs
+  
+  - name: SemanticSimilarity
+    uses: azure-ai-evaluation/similarity
+    description: Compares semantic meaning
+  
+  - name: ContradictionDetector
+    uses: custom/contradiction-detector
+    description: Identifies self-contradictions
+
+test_config:
+  default_runs: 5
+  temperatures: [0, 0.3, 0.7, 1.0]
+  similarity_threshold: 0.8
+  
+notes: |
+  Running consistency tests:
+  1. Execute same prompt multiple times
+  2. Compare with semantic similarity metrics
+  3. Check for contradictions between responses
+  4. Analyze variance in creative vs factual tasks

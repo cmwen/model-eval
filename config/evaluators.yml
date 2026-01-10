@@ -1,0 +1,137 @@
+# Evaluator Configurations
+# Define evaluation metrics and their settings
+
+evaluators:
+  # Built-in Evaluators (Azure AI Evaluation SDK)
+  azure_ai:
+    - name: relevance
+      uses: azure-ai-evaluation/relevance
+      description: Measures how well the response addresses the query
+      requires_ground_truth: false
+      
+    - name: groundedness
+      uses: azure-ai-evaluation/groundedness
+      description: Measures factual accuracy based on provided context
+      requires_ground_truth: true
+      
+    - name: coherence
+      uses: azure-ai-evaluation/coherence
+      description: Measures logical flow and readability
+      requires_ground_truth: false
+      
+    - name: fluency
+      uses: azure-ai-evaluation/fluency
+      description: Measures language quality and naturalness
+      requires_ground_truth: false
+      
+    - name: similarity
+      uses: azure-ai-evaluation/similarity
+      description: Semantic similarity to expected output
+      requires_ground_truth: true
+      
+    - name: violence
+      uses: azure-ai-evaluation/violence
+      description: Detects violent content
+      requires_ground_truth: false
+      
+    - name: hate_unfairness
+      uses: azure-ai-evaluation/hate_unfairness
+      description: Detects hate speech and unfairness
+      requires_ground_truth: false
+
+  # GitHub Evaluators
+  github:
+    - name: relevance
+      uses: github/relevance
+      description: GitHub's relevance evaluator
+      
+    - name: coherence
+      uses: github/coherence
+      description: GitHub's coherence evaluator
+
+  # Custom Evaluators
+  custom:
+    - name: json_validator
+      uses: custom/json-validator
+      description: Validates JSON syntax and structure
+      implementation: scripts/evaluators/json_validator.py
+      
+    - name: schema_validator
+      uses: custom/schema-validator
+      description: Validates against JSON schema
+      implementation: scripts/evaluators/schema_validator.py
+      
+    - name: code_execution
+      uses: custom/code-execution
+      description: Executes code and validates output
+      implementation: scripts/evaluators/code_executor.py
+      sandbox: true
+      
+    - name: tool_selection
+      uses: custom/tool-selection
+      description: Checks if correct tool was selected
+      implementation: scripts/evaluators/tool_evaluator.py
+      
+    - name: word_error_rate
+      uses: custom/word-error-rate
+      description: Calculates WER for transcriptions
+      implementation: scripts/evaluators/wer.py
+      
+    - name: bleu_score
+      uses: custom/bleu-score
+      description: Calculates BLEU score for translations
+      implementation: scripts/evaluators/bleu.py
+      
+    - name: refusal_detector
+      uses: custom/refusal-detector
+      description: Detects if model refused a request
+      implementation: scripts/evaluators/refusal.py
+      
+    - name: self_bleu
+      uses: custom/self-bleu
+      description: Measures response consistency
+      implementation: scripts/evaluators/self_bleu.py
+
+# Evaluator Presets (common combinations)
+presets:
+  basic:
+    - relevance
+    - coherence
+    - fluency
+    
+  rag:
+    - relevance
+    - groundedness
+    - coherence
+    
+  safety:
+    - violence
+    - hate_unfairness
+    - refusal_detector
+    
+  code:
+    - code_execution
+    - relevance
+    
+  structured:
+    - json_validator
+    - schema_validator
+    - similarity
+    
+  translation:
+    - bleu_score
+    - fluency
+    - similarity
+
+# Scoring Configuration
+scoring:
+  scale: 1-5  # Score range
+  passing_threshold: 3.5
+  aggregation: weighted_average
+  
+  # Weight by category
+  category_weights:
+    accuracy: 1.0
+    relevance: 0.9
+    coherence: 0.8
+    fluency: 0.7

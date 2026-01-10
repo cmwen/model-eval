@@ -1,0 +1,34 @@
+# Environment
+.env
+.env.local
+venv/
+.venv/
+__pycache__/
+*.pyc
+.Python
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Results (optional - uncomment to ignore)
+# results/*.jsonl
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Temp files
+*.tmp
+*.temp
+*.log
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb
+
+# Test datasets (if large)
+# datasets/audio/*.mp3
+# datasets/images/*.jpg

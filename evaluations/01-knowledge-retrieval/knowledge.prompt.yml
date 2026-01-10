@@ -1,0 +1,76 @@
+messages:
+  - role: system
+    content: You are a helpful assistant that provides accurate, concise answers to factual questions.
+  - role: user
+    content: "{{query}}"
+model: openai/gpt-4o
+testData:
+  # Historical Facts
+  - query: "What year did World War II end?"
+    expected: "1945"
+    category: "history"
+    difficulty: "easy"
+  
+  - query: "Who wrote the play 'Hamlet'?"
+    expected: "William Shakespeare"
+    category: "literature"
+    difficulty: "easy"
+  
+  - query: "What is the capital of Australia?"
+    expected: "Canberra"
+    category: "geography"
+    difficulty: "easy"
+  
+  # Scientific Knowledge
+  - query: "What is the chemical symbol for gold?"
+    expected: "Au"
+    category: "chemistry"
+    difficulty: "easy"
+  
+  - query: "How many planets are in our solar system?"
+    expected: "8"
+    category: "astronomy"
+    difficulty: "easy"
+  
+  - query: "What is the speed of light in a vacuum?"
+    expected: "approximately 299,792,458 meters per second or about 3×10^8 m/s"
+    category: "physics"
+    difficulty: "medium"
+  
+  # Technical Knowledge
+  - query: "What does HTTP stand for?"
+    expected: "HyperText Transfer Protocol"
+    category: "technology"
+    difficulty: "easy"
+  
+  - query: "What is the time complexity of binary search?"
+    expected: "O(log n)"
+    category: "computer_science"
+    difficulty: "medium"
+  
+  # Complex Factual
+  - query: "Brief history of Wikipedia."
+    expected: "Wikipedia was launched on January 15, 2001, by Jimmy Wales and Larry Sanger. It started as a complement to Nupedia, a more traditional encyclopedia. It grew to become the largest free online encyclopedia, available in multiple languages."
+    category: "history"
+    difficulty: "medium"
+  
+  - query: "What are the three laws of thermodynamics?"
+    expected: |
+      1. Energy cannot be created or destroyed (conservation of energy)
+      2. Entropy of an isolated system always increases
+      3. Entropy approaches zero as temperature approaches absolute zero
+    category: "physics"
+    difficulty: "medium"
+
+evaluators:
+  - name: Relevance
+    uses: github/relevance
+    description: Measures if the response addresses the query
+  
+  - name: Groundedness
+    uses: azure-ai-evaluation/groundedness
+    description: Measures factual accuracy
+  
+  - name: Similarity
+    uses: azure-ai-evaluation/similarity
+    description: Semantic similarity to expected answer

@@ -1,0 +1,102 @@
+messages:
+  - role: system
+    content: |
+      You are a vision-capable assistant. Analyze images carefully and provide accurate descriptions.
+      Focus on relevant details and be precise in your observations.
+  - role: user
+    content: 
+      - type: text
+        text: "{{query}}"
+      - type: image_url
+        image_url:
+          url: "{{image_url}}"
+model: openai/gpt-4o
+testData:
+  # Basic Object Identification
+  - query: "What objects do you see in this image?"
+    image_url: "datasets/images/office_desk.jpg"
+    expected: "A desk with a laptop, coffee mug, notebook, pen, and plant"
+    category: "object_identification"
+    difficulty: "easy"
+  
+  # Scene Description
+  - query: "Describe this scene in detail."
+    image_url: "datasets/images/city_street.jpg"
+    expected: "A busy urban street with pedestrians, cars, storefronts, and traffic lights"
+    category: "scene_description"
+    difficulty: "medium"
+  
+  # OCR - Printed Text
+  - query: "What text is visible in this image?"
+    image_url: "datasets/images/sign_text.jpg"
+    expected: "Extract all visible text accurately"
+    category: "ocr_printed"
+    difficulty: "easy"
+  
+  # OCR - Handwritten
+  - query: "Can you read the handwritten note in this image?"
+    image_url: "datasets/images/handwritten_note.jpg"
+    expected: "Accurately transcribe handwritten text"
+    category: "ocr_handwritten"
+    difficulty: "hard"
+  
+  # Chart Interpretation
+  - query: "What does this chart show? What are the key trends?"
+    image_url: "datasets/images/bar_chart.png"
+    expected: "Identify chart type, data categories, trends, and key insights"
+    category: "chart_analysis"
+    difficulty: "medium"
+  
+  # Counting
+  - query: "How many people are in this image?"
+    image_url: "datasets/images/crowd.jpg"
+    expected: "Accurate count or reasonable estimate for large groups"
+    category: "counting"
+    difficulty: "medium"
+  
+  # Color Identification
+  - query: "What colors are prominent in this image?"
+    image_url: "datasets/images/abstract_art.jpg"
+    expected: "List of primary colors with relative prominence"
+    category: "color_analysis"
+    difficulty: "easy"
+  
+  # Spatial Reasoning
+  - query: "Describe the spatial arrangement of objects in this room."
+    image_url: "datasets/images/living_room.jpg"
+    expected: "Clear description of object positions relative to each other"
+    category: "spatial_reasoning"
+    difficulty: "medium"
+  
+  # Technical Diagram
+  - query: "Explain this diagram. What does it represent?"
+    image_url: "datasets/images/flowchart.png"
+    expected: "Accurate interpretation of diagram elements and their relationships"
+    category: "diagram_analysis"
+    difficulty: "hard"
+  
+  # Comparison
+  - query: "What are the differences between the two images?"
+    image_url: "datasets/images/comparison_pair.jpg"
+    expected: "Identify specific differences between image A and image B"
+    category: "comparison"
+    difficulty: "hard"
+
+evaluators:
+  - name: Accuracy
+    uses: custom/vision-accuracy
+    description: Measures correctness of visual analysis
+  
+  - name: Completeness
+    uses: custom/vision-completeness
+    description: Checks if key elements were identified
+  
+  - name: Relevance
+    uses: github/relevance
+    description: Measures response relevance to query
+
+notes: |
+  To run these tests:
+  1. Add test images to datasets/images/
+  2. Update image_url paths accordingly
+  3. Some tests require models with vision capabilities (GPT-4V, Claude 3, etc.)
