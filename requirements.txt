@@ -4,10 +4,14 @@
 pyyaml>=6.0
 python-dotenv>=1.0.0
 
-# Evaluation SDKs
+# LLM Client (supports Ollama, OpenAI, Anthropic, etc.)
+litellm>=1.30.0
+
+# Optional: Direct Ollama support
+ollama>=0.1.0
+
+# Evaluation SDKs (optional for advanced metrics)
 azure-ai-evaluation>=1.0.0
-openai>=1.0.0
-anthropic>=0.18.0
 
 # Data handling
 pandas>=2.0.0

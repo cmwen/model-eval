@@ -13,7 +13,7 @@ messages:
       {"tool": "tool_name", "arguments": {...}}
   - role: user
     content: "{{query}}"
-model: openai/gpt-4o
+model: ollama/gpt-oss:20b
 testData:
   # Simple Tool Call
   - query: "What's the weather like in Tokyo?"

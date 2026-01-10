@@ -3,7 +3,7 @@ messages:
     content: You are a helpful assistant that provides accurate, concise answers to factual questions.
   - role: user
     content: "{{query}}"
-model: openai/gpt-4o
+model: ollama/gpt-oss:20b
 testData:
   # Historical Facts
   - query: "What year did World War II end?"

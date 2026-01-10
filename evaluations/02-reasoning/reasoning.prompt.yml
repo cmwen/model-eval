@@ -8,7 +8,7 @@ messages:
       4. Provide the final answer clearly marked
   - role: user
     content: "{{query}}"
-model: openai/gpt-4o
+model: ollama/gpt-oss:20b
 testData:
   # Logical Puzzles
   - query: |

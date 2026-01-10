@@ -5,7 +5,7 @@ messages:
       Respond in the same language as the user's query unless asked to translate.
   - role: user
     content: "{{query}}"
-model: openai/gpt-4o
+model: ollama/gpt-oss:20b
 testData:
   # Spanish
   - query: "¿Cuál es la capital de España?"

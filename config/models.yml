@@ -1,8 +1,212 @@
 # Model Configurations
 # Define models to evaluate and their settings
 
+# Default configuration for Ollama (local)
+default:
+  provider: ollama
+  base_url: http://localhost:11434
+  # Can be overridden with environment variables:
+  # OLLAMA_BASE_URL, LITELLM_API_BASE, AI_PROXY_URL
+
 models:
-  # OpenAI Models
+  # Ollama Models (Local) - PRIMARY EVALUATION TARGETS
+  - id: ollama/gpt-oss:20b
+    name: GPT-OSS 20B (OpenAI Open Weight)
+    provider: ollama
+    capabilities:
+      - text
+      - reasoning
+      - tool_calling
+    context_window: 128000
+    cost_per_1k_input: 0.0  # Local inference
+    cost_per_1k_output: 0.0
+    notes: "Default model - OpenAI's open-weight model with excellent reasoning"
+    is_default: true
+
+  - id: ollama/gpt-oss:120b
+    name: GPT-OSS 120B (OpenAI Open Weight)
+    provider: ollama
+    capabilities:
+      - text
+      - reasoning
+      - tool_calling
+      - code_generation
+    context_window: 128000
+    cost_per_1k_input: 0.0
+    cost_per_1k_output: 0.0
+    notes: "Larger variant with enhanced capabilities"
+
+  - id: ollama/ministral-3:3b
+    name: Ministral 3 3B
+    provider: ollama
+    capabilities:
+      - text
+      - reasoning
+      - tool_calling
+    context_window: 32768
+    cost_per_1k_input: 0.0
+    cost_per_1k_output: 0.0
+    notes: "Compact model for edge deployment"
+
+  - id: ollama/ministral-3:8b
+    name: Ministral 3 8B
+    provider: ollama
+    capabilities:
+      - text
+      - reasoning
+      - tool_calling
+    context_window: 32768
+    cost_per_1k_input: 0.0
+    cost_per_1k_output: 0.0
+    notes: "Mid-sized reasoning model"
+
+  - id: ollama/ministral-3:14b
+    name: Ministral 3 14B
+    provider: ollama
+    capabilities:
+      - text
+      - reasoning
+      - tool_calling
+    context_window: 32768
+    cost_per_1k_input: 0.0
+    cost_per_1k_output: 0.0
+    notes: "Larger reasoning model"
+
+  - id: ollama/qwen3:4b
+    name: Qwen 3 4B
+    provider: ollama
+    capabilities:
+      - text
+      - reasoning
+    context_window: 32768
+    cost_per_1k_input: 0.0
+    cost_per_1k_output: 0.0
+    notes: "Compact Qwen3 model"
+
+  - id: ollama/qwen3:8b
+    name: Qwen 3 8B
+    provider: ollama
+    capabilities:
+      - text
+      - reasoning
+      - code_generation
+    context_window: 32768
+    cost_per_1k_input: 0.0
+    cost_per_1k_output: 0.0
+    notes: "Fast general purpose model"
+
+  - id: ollama/qwen3:14b
+    name: Qwen 3 14B
+    provider: ollama
+    capabilities:
+      - text
+      - reasoning
+      - code_generation
+    context_window: 32768
+    cost_per_1k_input: 0.0
+    cost_per_1k_output: 0.0
+    notes: "Good balance of speed and capability"
+
+  - id: ollama/qwen3:30b
+    name: Qwen 3 30B
+    provider: ollama
+    capabilities:
+      - text
+      - reasoning
+      - code_generation
+      - tool_calling
+    context_window: 32768
+    cost_per_1k_input: 0.0
+    cost_per_1k_output: 0.0
+    notes: "Powerful reasoning and coding model"
+
+  - id: ollama/gemma3:2b
+    name: Gemma 3 2B
+    provider: ollama
+    capabilities:
+      - text
+    context_window: 8192
+    cost_per_1k_input: 0.0
+    cost_per_1k_output: 0.0
+    notes: "Ultra-lightweight model"
+
+  - id: ollama/gemma3:4b
+    name: Gemma 3 4B
+    provider: ollama
+    capabilities:
+      - text
+      - reasoning
+    context_window: 8192
+    cost_per_1k_input: 0.0
+    cost_per_1k_output: 0.0
+    notes: "Lightweight Google model"
+
+  - id: ollama/gemma3:12b
+    name: Gemma 3 12B
+    provider: ollama
+    capabilities:
+      - text
+      - reasoning
+    context_window: 8192
+    cost_per_1k_input: 0.0
+    cost_per_1k_output: 0.0
+    notes: "Mid-sized capable model"
+
+  - id: ollama/gemma3:27b
+    name: Gemma 3 27B
+    provider: ollama
+    capabilities:
+      - text
+      - reasoning
+      - code_generation
+    context_window: 8192
+    cost_per_1k_input: 0.0
+    cost_per_1k_output: 0.0
+    notes: "Larger Gemma variant"
+
+  - id: ollama/gemma3-nano:2b
+    name: Gemma 3 Nano 2B
+    provider: ollama
+    capabilities:
+      - text
+    context_window: 8192
+    cost_per_1k_input: 0.0
+    cost_per_1k_output: 0.0
+    notes: "Efficient model for edge devices"
+
+  - id: ollama/gemma3-nano:4b
+    name: Gemma 3 Nano 4B
+    provider: ollama
+    capabilities:
+      - text
+      - reasoning
+    context_window: 8192
+    cost_per_1k_input: 0.0
+    cost_per_1k_output: 0.0
+    notes: "Fast execution on limited hardware"
+
+  - id: ollama/llama3.2:1b
+    name: Llama 3.2 1B
+    provider: ollama
+    capabilities:
+      - text
+    context_window: 8192
+    cost_per_1k_input: 0.0
+    cost_per_1k_output: 0.0
+    notes: "Ultra-lightweight Meta model"
+
+  - id: ollama/llama3.2:3b
+    name: Llama 3.2 3B
+    provider: ollama
+    capabilities:
+      - text
+      - tool_calling
+    context_window: 8192
+    cost_per_1k_input: 0.0
+    cost_per_1k_output: 0.0
+    notes: "Compact Meta model with tool support"
+
+  # OpenAI Models (via API or proxy)
   - id: openai/gpt-4o
     name: GPT-4o
     provider: openai

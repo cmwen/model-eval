@@ -5,7 +5,7 @@ messages:
       Read the provided context carefully and answer questions accurately.
   - role: user
     content: "{{context}}\n\nQuestion: {{query}}"
-model: openai/gpt-4o
+model: ollama/gpt-oss:20b
 testData:
   # Basic Context Retrieval
   - context: "datasets/contexts/short_article.txt"

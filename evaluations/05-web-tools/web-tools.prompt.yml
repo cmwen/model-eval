@@ -12,7 +12,7 @@ messages:
       After receiving results, synthesize the information helpfully.
   - role: user
     content: "{{query}}"
-model: openai/gpt-4o
+model: ollama/gpt-oss:20b
 testData:
   # Simple Search
   - query: "Search for the latest news about renewable energy"

@@ -5,7 +5,7 @@ messages:
       Always respond with valid JSON only - no markdown, no explanations, just the JSON object.
   - role: user
     content: "{{query}}"
-model: openai/gpt-4o
+model: ollama/gpt-oss:20b
 testData:
   # Simple JSON
   - query: |
