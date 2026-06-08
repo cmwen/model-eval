@@ -1,0 +1,96 @@
+# yaml-language-server: $schema=https://promptfoo.dev/config-schema.json
+
+description: Context window benchmark
+
+prompts:
+  - |
+      You are an assistant with excellent memory and attention.
+      Read the context carefully and answer using only the provided context.
+
+      Context:
+      {{context}}
+
+      Question: {{query}}
+
+providers:
+  - id: openai:chat:gpt-oss:20b
+    config:
+      apiBaseUrl: http://localhost:11434/v1
+      temperature: 0
+
+tests:
+  - vars:
+      context: |
+        This article argues that cities should invest in renewable energy because it reduces emissions, lowers long-term costs, and improves resilience during outages.
+      query: What is the main argument of the article?
+    assert:
+      - type: icontains
+        value: "renewable energy"
+
+  - vars:
+      context: |
+        At the start of the document the secret code was ALPHA-19. The rest of the document is filler text.
+      query: What was the secret code mentioned at the start of the document?
+    assert:
+      - type: icontains
+        value: "ALPHA-19"
+
+  - vars:
+      context: |
+        The middle of the document contains the secret code BRAVO-42 among a long block of unrelated text.
+      query: What was the secret code mentioned in the middle of the document?
+    assert:
+      - type: icontains
+        value: "BRAVO-42"
+
+  - vars:
+      context: |
+        The document ends by revealing the secret code CHARLIE-77.
+      query: What was the secret code mentioned at the end of the document?
+    assert:
+      - type: icontains
+        value: "CHARLIE-77"
+
+  - vars:
+      context: |
+        Article 1: renewable energy lowers emissions and costs.
+        Article 2: renewable energy improves grid resilience.
+        Article 3: renewable energy creates jobs and supports local industry.
+      query: What are the common themes across all the articles provided?
+    assert:
+      - type: icontains
+        value: "renewable energy"
+
+  - vars:
+      context: |
+        In this study, we surveyed 240 participants across three cities.
+      query: What was the sample size used in the study?
+    assert:
+      - type: icontains
+        value: "240"
+
+  - vars:
+      context: |
+        The shopping list includes apples, bananas, oranges, pears, and grapes.
+      query: How many items were mentioned in the list?
+    assert:
+      - type: icontains
+        value: "5"
+
+  - vars:
+      context: |
+        The report states that revenue grew in Q1, then fell slightly in Q2, and finally stabilized in Q3.
+      query: Summarize this report in 3 key points.
+    assert:
+      - type: icontains
+        value: "revenue"
+      - type: icontains
+        value: "Q1"
+
+  - vars:
+      context: |
+        The authentication function is named authenticateUser and it validates credentials before issuing a session token.
+      query: What function handles user authentication?
+    assert:
+      - type: icontains
+        value: "authenticateUser"

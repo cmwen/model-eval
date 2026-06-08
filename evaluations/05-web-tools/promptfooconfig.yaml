@@ -1,0 +1,117 @@
+# yaml-language-server: $schema=https://promptfoo.dev/config-schema.json
+
+description: Web tools benchmark
+
+prompts:
+  - |
+      You have access to web_search, fetch_url, and extract_links.
+      When a tool is needed, respond in JSON with the tool name and arguments.
+
+      User request: {{query}}
+
+providers:
+  - id: openai:chat:gpt-oss:20b
+    config:
+      apiBaseUrl: http://localhost:11434/v1
+      temperature: 0
+
+tests:
+  - vars:
+      query: Search for the latest news about renewable energy
+    assert:
+      - type: is-json
+        value:
+          type: object
+          required: [tool, arguments]
+          properties:
+            tool:
+              type: string
+            arguments:
+              type: object
+
+  - vars:
+      query: Find the official Python documentation for the asyncio library
+    assert:
+      - type: is-json
+        value:
+          type: object
+          required: [tool, arguments]
+          properties:
+            tool:
+              type: string
+            arguments:
+              type: object
+
+  - vars:
+      query: Get the content from https://example.com/api/docs
+    assert:
+      - type: is-json
+        value:
+          type: object
+          required: [tool, arguments]
+          properties:
+            tool:
+              type: string
+            arguments:
+              type: object
+
+  - vars:
+      query: Research the pros and cons of electric vehicles vs hybrid vehicles
+    assert:
+      - type: is-json
+        value:
+          type: object
+          required: [tool, arguments]
+          properties:
+            tool:
+              type: string
+            arguments:
+              type: object
+
+  - vars:
+      query: Find the GitHub repository for TensorFlow and list its main features from the README
+    assert:
+      - type: icontains
+        value: "web_search"
+      - type: icontains
+        value: "fetch_url"
+
+  - vars:
+      query: Find coffee shops near Times Square, New York
+    assert:
+      - type: is-json
+        value:
+          type: object
+          required: [tool, arguments]
+          properties:
+            tool:
+              type: string
+            arguments:
+              type: object
+
+  - vars:
+      query: Find recent research papers on transformer architectures in NLP
+    assert:
+      - type: is-json
+        value:
+          type: object
+          required: [tool, arguments]
+          properties:
+            tool:
+              type: string
+            arguments:
+              type: object
+
+  - vars:
+      query: Get all the navigation links from the Python.org homepage
+    assert:
+      - type: is-json
+        value:
+          type: object
+          required: [tool, arguments]
+          properties:
+            tool:
+              type: string
+            arguments:
+              type: object
+

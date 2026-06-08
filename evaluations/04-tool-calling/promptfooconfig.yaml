@@ -1,0 +1,121 @@
+# yaml-language-server: $schema=https://promptfoo.dev/config-schema.json
+
+description: Tool calling benchmark
+
+prompts:
+  - |
+      You can either answer directly or return a JSON tool call.
+      If a tool is needed, respond with {"tool": "...", "arguments": {...}}.
+
+      User request: {{query}}
+
+providers:
+  - id: openai:chat:gpt-oss:20b
+    config:
+      apiBaseUrl: http://localhost:11434/v1
+      temperature: 0
+
+tests:
+  - vars:
+      query: What's the weather like in Tokyo?
+    assert:
+      - type: is-json
+        value:
+          type: object
+          required: [tool, arguments]
+          properties:
+            tool:
+              type: string
+            arguments:
+              type: object
+
+  - vars:
+      query: What's the temperature in Paris in Fahrenheit?
+    assert:
+      - type: is-json
+        value:
+          type: object
+          required: [tool, arguments]
+          properties:
+            tool:
+              type: string
+            arguments:
+              type: object
+
+  - vars:
+      query: Find the top 5 customers who made purchases last month
+    assert:
+      - type: is-json
+        value:
+          type: object
+          required: [tool, arguments]
+          properties:
+            tool:
+              type: string
+            arguments:
+              type: object
+
+  - vars:
+      query: Send an email to john@example.com about the project update, let him know we're on track for the Friday deadline. CC the team leads.
+    assert:
+      - type: is-json
+        value:
+          type: object
+          required: [tool, arguments]
+          properties:
+            tool:
+              type: string
+            arguments:
+              type: object
+
+  - vars:
+      query: What is 15% of 230 plus 45?
+    assert:
+      - type: is-json
+        value:
+          type: object
+          required: [tool, arguments]
+          properties:
+            tool:
+              type: string
+            arguments:
+              type: object
+
+  - vars:
+      query: I need information about user ID 'usr_12345'
+    assert:
+      - type: is-json
+        value:
+          type: object
+          required: [tool, arguments]
+          properties:
+            tool:
+              type: string
+            arguments:
+              type: object
+
+  - vars:
+      query: What is the capital of France?
+    assert:
+      - type: icontains
+        value: "Paris"
+
+  - vars:
+      query: Tell me about the weather
+    assert:
+      - type: icontains
+        value: "Which city would you like me to check?"
+
+  - vars:
+      query: Search for all active premium users in the sales department, show me 10 results
+    assert:
+      - type: is-json
+        value:
+          type: object
+          required: [tool, arguments]
+          properties:
+            tool:
+              type: string
+            arguments:
+              type: object
+

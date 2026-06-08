@@ -1,0 +1,97 @@
+# yaml-language-server: $schema=https://promptfoo.dev/config-schema.json
+
+description: Multilingual benchmark
+
+prompts:
+  - |
+      You are a multilingual assistant fluent in many languages.
+      Respond in the same language as the user's query unless translation is requested.
+
+      Question: {{query}}
+
+providers:
+  - id: openai:chat:gpt-oss:20b
+    config:
+      apiBaseUrl: http://localhost:11434/v1
+      temperature: 0
+
+tests:
+  - vars:
+      query: ¿Cuál es la capital de España?
+    assert:
+      - type: icontains
+        value: "Madrid"
+
+  - vars:
+      query: Translate 'The quick brown fox jumps over the lazy dog' to Spanish
+    assert:
+      - type: icontains
+        value: "zorro"
+      - type: icontains
+        value: "perro"
+
+  - vars:
+      query: Expliquez brièvement la Révolution française.
+    assert:
+      - type: icontains
+        value: "Révolution française"
+
+  - vars:
+      query: Was ist der Unterschied zwischen 'Kennen' und 'Wissen'?
+    assert:
+      - type: icontains
+        value: "kennen"
+      - type: icontains
+        value: "wissen"
+
+  - vars:
+      query: 请用中文解释什么是人工智能。
+    assert:
+      - type: icontains
+        value: "人工智能"
+
+  - vars:
+      query: 日本の四季について教えてください。
+    assert:
+      - type: icontains
+        value: "四季"
+
+  - vars:
+      query: |
+        Translate this idiomatic expression to French, maintaining the meaning:
+        "It's raining cats and dogs"
+    assert:
+      - type: icontains
+        value: "cordes"
+
+  - vars:
+      query: What does 'Schadenfreude' mean? Explain in English.
+    assert:
+      - type: icontains
+        value: "misfortune"
+
+  - vars:
+      query: Puedes help me with my español homework por favor?
+    assert:
+      - type: icontains
+        value: "help"
+
+  - vars:
+      query: 한국의 전통 음식에 대해 알려주세요.
+    assert:
+      - type: icontains
+        value: "한국"
+
+  - vars:
+      query: ما هي أهم المعالم السياحية في مصر؟
+    assert:
+      - type: icontains
+        value: "مصر"
+
+  - vars:
+      query: |
+        Translate this technical text to German:
+        "Machine learning is a subset of artificial intelligence that enables systems to learn from data."
+    assert:
+      - type: icontains
+        value: "Maschinelles Lernen"

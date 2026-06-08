@@ -13,8 +13,9 @@ __pycache__/
 *.swp
 *.swo
 
-# Results (optional - uncomment to ignore)
-# results/*.jsonl
+# Promptfoo outputs
+# .promptfoo/
+# promptfoo-output/
 
 # OS
 .DS_Store
@@ -29,6 +30,5 @@ Thumbs.db
 .ipynb_checkpoints/
 *.ipynb
 
-# Test datasets (if large)
-# datasets/audio/*.mp3
-# datasets/images/*.jpg
+# Local benchmark assets (uncomment if you add large fixtures back)
+# evaluations/**/assets/

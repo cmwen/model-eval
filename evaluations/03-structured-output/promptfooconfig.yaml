@@ -1,0 +1,129 @@
+# yaml-language-server: $schema=https://promptfoo.dev/config-schema.json
+
+description: Structured output benchmark
+
+prompts:
+  - |
+      You are a data extraction assistant.
+      Return valid JSON only. No markdown, no commentary, no code fences.
+
+      Task: {{query}}
+
+providers:
+  - id: openai:chat:gpt-oss:20b
+    config:
+      apiBaseUrl: http://localhost:11434/v1
+      temperature: 0
+
+tests:
+  - vars:
+      query: |
+        Extract the person's information from this text and return as JSON:
+        "John Smith is 32 years old and works as a software engineer at Google."
+    assert:
+      - type: is-json
+        value:
+          type: object
+          required: [name, age, job, company]
+          properties:
+            name:
+              type: string
+            age:
+              type: number
+            job:
+              type: string
+            company:
+              type: string
+
+  - vars:
+      query: |
+        Convert this order to JSON:
+        Order #12345 for customer Jane Doe (jane@email.com)
+        - 2x Widget A at $10.00 each
+        - 1x Widget B at $25.00
+    assert:
+      - type: is-json
+        value:
+          type: object
+          required: [orderId, customer, items, total]
+          properties:
+            orderId:
+              type: string
+            customer:
+              type: object
+              required: [name, email]
+              properties:
+                name:
+                  type: string
+                email:
+                  type: string
+            items:
+              type: array
+              minItems: 2
+            total:
+              type: number
+
+  - vars:
+      query: |
+        Generate a JSON array of the first 5 prime numbers with their properties.
+    assert:
+      - type: is-json
+        value:
+          type: array
+          minItems: 5
+          items:
+            type: object
+            required: [value, position, isEven]
+            properties:
+              value:
+                type: number
+              position:
+                type: number
+              isEven:
+                type: boolean
+
+  - vars:
+      query: |
+        Extract meeting details from this email:
+        "Hi team, let's meet on March 15, 2024 at 2:30 PM in Conference Room B to discuss Q1 results."
+    assert:
+      - type: is-json
+        value:
+          type: object
+          required: [date, time, location, topic, attendees, durationMinutes]
+          properties:
+            date:
+              type: string
+            time:
+              type: string
+            location:
+              type: string
+            topic:
+              type: string
+            attendees:
+              type: array
+            durationMinutes:
+              type: number
+
+  - vars:
+      query: |
+        Classify these customer feedback entries and return as JSON array:
+        1. "Great product, love it!"
+        2. "Shipping was delayed by 2 weeks"
+        3. "Works as expected"
+    assert:
+      - type: is-json
+        value:
+          type: array
+          minItems: 3
+          items:
+            type: object
+            required: [id, text, sentiment]
+            properties:
+              id:
+                type: number
+              text:
+                type: string
+              sentiment:
+                type: string
+

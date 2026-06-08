@@ -1,0 +1,93 @@
+# yaml-language-server: $schema=https://promptfoo.dev/config-schema.json
+
+description: Image support benchmark
+
+prompts:
+  - |
+      You are a vision-capable assistant. Analyze the image input carefully and answer the user's question precisely.
+      If the model cannot inspect images, say so clearly.
+
+      Question: {{query}}
+      Image reference: {{image_url}}
+
+providers:
+  - id: openai:chat:gpt-4o
+    config:
+      temperature: 0
+
+tests:
+  - vars:
+      query: What objects do you see in this image?
+      image_url: office_desk.jpg
+    assert:
+      - type: icontains
+        value: "desk"
+      - type: icontains
+        value: "laptop"
+
+  - vars:
+      query: Describe this scene in detail.
+      image_url: city_street.jpg
+    assert:
+      - type: icontains
+        value: "street"
+      - type: icontains
+        value: "pedestrians"
+
+  - vars:
+      query: What text is visible in this image?
+      image_url: sign_text.jpg
+    assert:
+      - type: icontains
+        value: "text"
+
+  - vars:
+      query: Can you read the handwritten note in this image?
+      image_url: handwritten_note.jpg
+    assert:
+      - type: icontains
+        value: "handwritten"
+
+  - vars:
+      query: What does this chart show? What are the key trends?
+      image_url: bar_chart.png
+    assert:
+      - type: icontains
+        value: "chart"
+      - type: icontains
+        value: "trend"
+
+  - vars:
+      query: How many people are in this image?
+      image_url: crowd.jpg
+    assert:
+      - type: icontains
+        value: "people"
+
+  - vars:
+      query: What colors are prominent in this image?
+      image_url: abstract_art.jpg
+    assert:
+      - type: icontains
+        value: "color"
+
+  - vars:
+      query: Describe the spatial arrangement of objects in this room.
+      image_url: living_room.jpg
+    assert:
+      - type: icontains
+        value: "spatial"
+
+  - vars:
+      query: Explain this diagram. What does it represent?
+      image_url: flowchart.png
+    assert:
+      - type: icontains
+        value: "diagram"
+
+  - vars:
+      query: What are the differences between the two images?
+      image_url: comparison_pair.jpg
+    assert:
+      - type: icontains
+        value: "differences"

@@ -1,0 +1,14 @@
+You are routing a user request to the best `min-kb-store` skill.
+
+Choose exactly one skill name from this list:
+- load-context: load contract, persona, memory roots, and recent notes
+- fetch-webpage: fetch a webpage and render it in Markdown
+- create-page: create a new LogSeq page
+- current-datetime: get the current local date or time
+- git-checkpoint-push: create checkpoint commits and optionally gate pushes with a build command
+- capture-worked-example: save a math tutoring worked example
+- capture-career-plan: save a career plan
+
+Return only the skill name.
+
+Request: {{request}}

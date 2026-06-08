@@ -1,0 +1,49 @@
+# yaml-language-server: $schema=https://promptfoo.dev/config-schema.json
+
+description: "Route requests to the current min-kb-store skill"
+
+prompts:
+  - file://prompts/skill-routing.txt
+
+providers:
+  - id: openai:chat:ministral-3-8b-instruct-2512
+    config:
+      apiBaseUrl: http://localhost:1234/v1
+      temperature: 0
+
+tests:
+  - vars:
+      request: "The user supplied the exact content for a new LogSeq page called Project/Now/New Idea."
+    assert:
+      - type: icontains
+        value: create-page
+
+  - vars:
+      request: "Fetch the contents of a specific URL and preserve links."
+    assert:
+      - type: icontains
+        value: fetch-webpage
+
+  - vars:
+      request: "Save a worked example from a math tutoring session."
+    assert:
+      - type: icontains
+        value: capture-worked-example
+
+  - vars:
+      request: "Create lightweight checkpoint commits and optionally gate pushes with a build command."
+    assert:
+      - type: icontains
+        value: git-checkpoint-push
+
+  - vars:
+      request: "Load the contract, persona layers, memory roots, and recent notes before starting a task."
+    assert:
+      - type: icontains
+        value: load-context
+
+  - vars:
+      request: "Capture a reusable career plan after discussing applications and networking."
+    assert:
+      - type: icontains
+        value: capture-career-plan

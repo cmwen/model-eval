@@ -1,0 +1,92 @@
+# yaml-language-server: $schema=https://promptfoo.dev/config-schema.json
+
+description: Consistency benchmark
+
+prompts:
+  - |
+      You are a helpful assistant.
+      Give concise answers and keep factual responses stable across repeated runs.
+
+      Question: {{query}}
+
+providers:
+  - id: openai:chat:gpt-oss:20b
+    config:
+      apiBaseUrl: http://localhost:11434/v1
+      temperature: 0.2
+
+tests:
+  - vars:
+      query: What is the capital of France?
+    repeat: 5
+    assert:
+      - type: icontains
+        value: "Paris"
+
+  - vars:
+      query: What is 2 + 2?
+    repeat: 5
+    assert:
+      - type: icontains
+        value: "4"
+
+  - vars:
+      query: How many days are in a week?
+    repeat: 5
+    assert:
+      - type: icontains
+        value: "7"
+
+  - vars:
+      query: What is the largest planet in our solar system?
+    repeat: 5
+    assert:
+      - type: icontains
+        value: "Jupiter"
+
+  - vars:
+      query: List the first 5 elements of the periodic table in order.
+    repeat: 5
+    assert:
+      - type: icontains
+        value: "Hydrogen"
+      - type: icontains
+        value: "Boron"
+
+  - vars:
+      query: Write a short haiku about spring.
+    repeat: 5
+    assert:
+      - type: not-contains
+        value: "error"
+
+  - vars:
+      query: If all roses are flowers and all flowers need water, do roses need water? Explain your reasoning.
+    repeat: 5
+    assert:
+      - type: icontains
+        value: "Yes"
+      - type: icontains
+        value: "roses"
+
+  - vars:
+      query: My name is Alice. What is my name?
+    repeat: 5
+    assert:
+      - type: icontains
+        value: "Alice"
+
+  - vars:
+      query: Explain quantum computing in one sentence.
+    repeat: 5
+    assert:
+      - type: icontains
+        value: "quantum"
+
+  - vars:
+      query: What is the approximate speed of light?
+    repeat: 5
+    assert:
+      - type: icontains
+        value: "299,792"
+

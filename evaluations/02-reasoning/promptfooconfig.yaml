@@ -1,0 +1,98 @@
+# yaml-language-server: $schema=https://promptfoo.dev/config-schema.json
+
+description: Reasoning benchmark
+
+prompts:
+  - |
+      You are a logical reasoning assistant.
+      Break problems into steps, state assumptions, and give a clearly marked final answer.
+
+      Question: {{query}}
+
+providers:
+  - id: openai:chat:gpt-oss:20b
+    config:
+      apiBaseUrl: http://localhost:11434/v1
+      temperature: 0
+
+tests:
+  - vars:
+      query: |
+        Three people (A, B, C) are standing in a line. A is not first. B is not last. C is not first or last.
+        What is the order from first to last?
+    assert:
+      - type: icontains
+        value: "B, C, A"
+
+  - vars:
+      query: |
+        If all roses are flowers, and some flowers fade quickly, can we conclude that some roses fade quickly?
+    assert:
+      - type: icontains
+        value: "No"
+      - type: icontains
+        value: "cannot conclude"
+
+  - vars:
+      query: |
+        A store sells apples for $2 each and oranges for $3 each.
+        If I bought 7 fruits for $17, how many of each did I buy?
+    assert:
+      - type: icontains
+        value: "4 apples and 3 oranges"
+
+  - vars:
+      query: |
+        A train travels from City A to City B at 60 mph.
+        The return trip is at 40 mph.
+        What is the average speed for the entire round trip?
+    assert:
+      - type: icontains
+        value: "48 mph"
+
+  - vars:
+      query: |
+        A company's revenue increased by 20% in Q1 and decreased by 20% in Q2.
+        Is the revenue at the end of Q2 equal to, greater than, or less than the starting revenue?
+    assert:
+      - type: icontains
+        value: "less than"
+      - type: icontains
+        value: "96%"
+
+  - vars:
+      query: |
+        Five houses in a row are painted different colors.
+        The red house is immediately to the left of the white house.
+        The blue house is in the middle.
+        The green house is on the far left.
+        What color is the house on the far right?
+    assert:
+      - type: icontains
+        value: "need more information"
+
+  - vars:
+      query: |
+        If I put ice cream in the freezer and pizza in the oven,
+        which one will be colder after an hour?
+    assert:
+      - type: icontains
+        value: "ice cream"
+      - type: icontains
+        value: "freezer"
+
+  - vars:
+      query: |
+        A farmer has 17 sheep. All but 9 run away. How many sheep does the farmer have left?
+    assert:
+      - type: icontains
+        value: "9 sheep"
+
+  - vars:
+      query: |
+        In a tournament, each team plays every other team exactly once.
+        If there are 8 teams, how many total games are played?
+    assert:
+      - type: icontains
+        value: "28 games"
+

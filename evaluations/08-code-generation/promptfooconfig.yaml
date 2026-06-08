@@ -1,0 +1,99 @@
+# yaml-language-server: $schema=https://promptfoo.dev/config-schema.json
+
+description: Code generation benchmark
+
+prompts:
+  - |
+      You are an expert programmer. Write clean, efficient code or explain code clearly.
+      Use the requested language and keep the response focused.
+
+      Request: {{query}}
+
+providers:
+  - id: openai:chat:gpt-oss:20b
+    config:
+      apiBaseUrl: http://localhost:11434/v1
+      temperature: 0
+
+tests:
+  - vars:
+      query: Write a Python function to check if a string is a palindrome.
+    assert:
+      - type: icontains
+        value: "def is_palindrome"
+
+  - vars:
+      query: Implement a simple stack class in Python with push, pop, and peek methods.
+    assert:
+      - type: icontains
+        value: "class Stack"
+      - type: icontains
+        value: "push"
+
+  - vars:
+      query: Write a JavaScript function to find the nth Fibonacci number using memoization.
+    assert:
+      - type: icontains
+        value: "function fibonacci"
+      - type: icontains
+        value: "memo"
+
+  - vars:
+      query: |
+        Fix the bug in this Python code:
+
+        def find_max(numbers):
+            max_num = 0
+            for num in numbers:
+                if num > max_num:
+                    max_num = num
+            return max_num
+    assert:
+      - type: icontains
+        value: "numbers[0]"
+      - type: icontains
+        value: "return None"
+
+  - vars:
+      query: |
+        Explain what this code does:
+
+        const debounce = (fn, delay) => {
+          let timeoutId;
+          return (...args) => {
+            clearTimeout(timeoutId);
+            timeoutId = setTimeout(() => fn(...args), delay);
+          };
+        };
+    assert:
+      - type: icontains
+        value: "debounce"
+      - type: icontains
+        value: "delay"
+
+  - vars:
+      query: Write a Python function using requests to fetch data from a REST API with error handling.
+    assert:
+      - type: icontains
+        value: "requests.get"
+      - type: icontains
+        value: "raise_for_status"
+
+  - vars:
+      query: Write a SQL query to find the top 5 customers by total order amount, including their name, email, and total spent.
+    assert:
+      - type: icontains
+        value: "SELECT"
+      - type: icontains
+        value: "JOIN"
+      - type: icontains
+        value: "LIMIT 5"
+
+  - vars:
+      query: Implement binary search in Python that returns the index of the target, or -1 if not found.
+    assert:
+      - type: icontains
+        value: "while left <= right"
+      - type: icontains
+        value: "return -1"
+
