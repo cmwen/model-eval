@@ -1,0 +1,114 @@
+- prompts:
+    - web-tools
+  vars:
+    query: Search for the latest news about renewable energy
+  assert:
+    - type: is-json
+      value:
+        type: object
+        required: [tool, arguments]
+        properties:
+          tool:
+            type: string
+          arguments:
+            type: object
+
+- prompts:
+    - web-tools
+  vars:
+    query: Find the official Python documentation for the asyncio library
+  assert:
+    - type: is-json
+      value:
+        type: object
+        required: [tool, arguments]
+        properties:
+          tool:
+            type: string
+          arguments:
+            type: object
+
+- prompts:
+    - web-tools
+  vars:
+    query: Get the content from https://example.com/api/docs
+  assert:
+    - type: is-json
+      value:
+        type: object
+        required: [tool, arguments]
+        properties:
+          tool:
+            type: string
+          arguments:
+            type: object
+
+- prompts:
+    - web-tools
+  vars:
+    query: Research the pros and cons of electric vehicles vs hybrid vehicles
+  assert:
+    - type: is-json
+      value:
+        type: object
+        required: [tool, arguments]
+        properties:
+          tool:
+            type: string
+          arguments:
+            type: object
+
+- prompts:
+    - web-tools
+  vars:
+    query: Find the GitHub repository for TensorFlow and list its main features from the README
+  assert:
+    - type: icontains
+      value: "web_search"
+    - type: icontains
+      value: "fetch_url"
+
+- prompts:
+    - web-tools
+  vars:
+    query: Find coffee shops near Times Square, New York
+  assert:
+    - type: is-json
+      value:
+        type: object
+        required: [tool, arguments]
+        properties:
+          tool:
+            type: string
+          arguments:
+            type: object
+
+- prompts:
+    - web-tools
+  vars:
+    query: Find recent research papers on transformer architectures in NLP
+  assert:
+    - type: is-json
+      value:
+        type: object
+        required: [tool, arguments]
+        properties:
+          tool:
+            type: string
+          arguments:
+            type: object
+
+- prompts:
+    - web-tools
+  vars:
+    query: Get all the navigation links from the Python.org homepage
+  assert:
+    - type: is-json
+      value:
+        type: object
+        required: [tool, arguments]
+        properties:
+          tool:
+            type: string
+          arguments:
+            type: object

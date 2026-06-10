@@ -1,0 +1,47 @@
+- prompts:
+    - skill-routing
+  vars:
+    request: "The user supplied the exact content for a new LogSeq page called Project/Now/New Idea."
+  assert:
+    - type: icontains
+      value: create-page
+
+- prompts:
+    - skill-routing
+  vars:
+    request: "Fetch the contents of a specific URL and preserve links."
+  assert:
+    - type: icontains
+      value: fetch-webpage
+
+- prompts:
+    - skill-routing
+  vars:
+    request: "Save a worked example from a math tutoring session."
+  assert:
+    - type: icontains
+      value: capture-worked-example
+
+- prompts:
+    - skill-routing
+  vars:
+    request: "Create lightweight checkpoint commits and optionally gate pushes with a build command."
+  assert:
+    - type: icontains
+      value: git-checkpoint-push
+
+- prompts:
+    - skill-routing
+  vars:
+    request: "Load the contract, persona layers, memory roots, and recent notes before starting a task."
+  assert:
+    - type: icontains
+      value: load-context
+
+- prompts:
+    - skill-routing
+  vars:
+    request: "Capture a reusable career plan after discussing applications and networking."
+  assert:
+    - type: icontains
+      value: capture-career-plan

@@ -1,0 +1,47 @@
+- prompts:
+    - agent-routing
+  vars:
+    request: "I need an evidence-based investigation of a changing topic with source notes."
+  assert:
+    - type: icontains
+      value: agent-researcher
+
+- prompts:
+    - agent-routing
+  vars:
+    request: "Can you help me write a new LogSeq page for a project idea?"
+  assert:
+    - type: icontains
+      value: agent-logseq
+
+- prompts:
+    - agent-routing
+  vars:
+    request: "Please checkpoint these repos and push only after the build passes."
+  assert:
+    - type: icontains
+      value: agent-maintenance-runner
+
+- prompts:
+    - agent-routing
+  vars:
+    request: "I need help solving a quadratic equation step by step."
+  assert:
+    - type: icontains
+      value: agent-math-tutor
+
+- prompts:
+    - agent-routing
+  vars:
+    request: "Help me plan a job search and decide between roles."
+  assert:
+    - type: icontains
+      value: agent-career-coach
+
+- prompts:
+    - agent-routing
+  vars:
+    request: "Just chat with me about a random day-to-day question."
+  assert:
+    - type: icontains
+      value: agent-general-chat

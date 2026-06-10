@@ -10,10 +10,8 @@ prompts:
       Question: {{query}}
 
 providers:
-  - id: openai:chat:gpt-oss:20b
-    config:
-      apiBaseUrl: http://localhost:11434/v1
-      temperature: 0.2
+  - file://../../providers/gemma-e2b.yaml
+  - file://../../providers/gemma-e4b.yaml
 
 tests:
   - vars:
@@ -89,4 +87,3 @@ tests:
     assert:
       - type: icontains
         value: "299,792"
-

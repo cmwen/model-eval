@@ -1,0 +1,83 @@
+- prompts:
+    - knowledge-retrieval
+  vars:
+      query: What year did World War II end?
+  assert:
+      - type: icontains
+        value: "1945"
+
+- prompts:
+    - knowledge-retrieval
+  vars:
+      query: Who wrote the play Hamlet?
+  assert:
+      - type: icontains
+        value: "William Shakespeare"
+
+- prompts:
+    - knowledge-retrieval
+  vars:
+      query: What is the capital of Australia?
+  assert:
+      - type: icontains
+        value: "Canberra"
+
+- prompts:
+    - knowledge-retrieval
+  vars:
+      query: What is the chemical symbol for gold?
+  assert:
+      - type: icontains
+        value: "Au"
+
+- prompts:
+    - knowledge-retrieval
+  vars:
+      query: How many planets are in our solar system?
+  assert:
+      - type: icontains
+        value: "Eight"
+
+- prompts:
+    - knowledge-retrieval
+  vars:
+      query: What is the speed of light in a vacuum?
+  assert:
+      - type: icontains
+        value: "299,792,458"
+
+- prompts:
+    - knowledge-retrieval
+  vars:
+      query: What does HTTP stand for?
+  assert:
+      - type: icontains
+        value: "HyperText Transfer Protocol"
+
+- prompts:
+    - knowledge-retrieval
+  vars:
+      query: What is the time complexity of binary search?
+  assert:
+      - type: icontains
+        value: "O(log n)"
+
+- prompts:
+    - knowledge-retrieval
+  vars:
+      query: Brief history of Wikipedia.
+  assert:
+      - type: icontains
+        value: "2001"
+      - type: icontains
+        value: "Jimmy Wales"
+
+- prompts:
+    - knowledge-retrieval
+  vars:
+      query: What are the three laws of thermodynamics?
+  assert:
+      - type: icontains
+        value: "conservation of energy"
+      - type: icontains
+        value: "entropy"

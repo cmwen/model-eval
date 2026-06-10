@@ -4,6 +4,8 @@ This repo is now a promptfoo-first benchmark suite for local and hosted LLMs.
 
 ## Layout
 
+- `promptfooconfig.yaml` — root config that aggregates all benchmark test sets
+- `datasets/*.yaml` — shared benchmark datasets (tests only)
 - `evaluations/*/promptfooconfig.yaml` — promptfoo configs for each benchmark
 - `evaluations/*/README.md` — short notes for each category
 - `evaluations/13-agent-skill-routing/` — extra routing smoke tests already in promptfoo format
@@ -11,26 +13,35 @@ This repo is now a promptfoo-first benchmark suite for local and hosted LLMs.
 ## Run
 
 ```bash
-npx promptfoo eval -c evaluations/01-knowledge-retrieval/promptfooconfig.yaml
-npx promptfoo eval -c evaluations/02-reasoning/promptfooconfig.yaml
-npx promptfoo eval -c evaluations/03-structured-output/promptfooconfig.yaml
+promptfoo eval
 ```
 
-Swap the config path for any other category. The configs use promptfoo assertions instead of the old Python evaluator stack.
+This runs the root config and loads all benchmark datasets.
 
-## Local Ollama
+To run a single benchmark category, keep using the category config path:
 
-Most text benchmarks target an OpenAI-compatible local endpoint such as Ollama:
+```bash
+promptfoo eval -c evaluations/01-knowledge-retrieval/promptfooconfig.yaml
+```
+
+To run a single model from the shared provider set:
+
+```bash
+promptfoo eval --filter-providers gemma4-e4b
+```
+
+Change `gemma4-e4b` to another provider label/id (for example `gemma4-e2b`) to switch models without editing benchmark configs.
+
+## Provider files
+
+Text benchmarks now use shared provider definitions:
 
 ```yaml
-providers:
-  - id: openai:chat:gpt-oss:20b
-    config:
-      apiBaseUrl: http://localhost:11434/v1
-      temperature: 0
+providers/gemma4-e2b.yaml
+providers/gemma4-e4b.yaml
 ```
 
-Adjust the provider block in a config to match the model you want to score.
+Edit those files when you need to change endpoint/model wiring globally.
 
 ## Categories
 
@@ -47,4 +58,3 @@ Adjust the provider block in a config to match the model you want to score.
 11. Context window
 12. Consistency
 13. Agent and skill routing
-

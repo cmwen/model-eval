@@ -1,0 +1,82 @@
+- prompts:
+    - audio-support
+  vars:
+    query: Please transcribe this audio clip.
+    audio_url: clear_speech.mp3
+  assert:
+    - type: icontains
+      value: "transcription"
+
+- prompts:
+    - audio-support
+  vars:
+    query: Transcribe this audio with attention to accuracy.
+    audio_url: accented_speech.mp3
+  assert:
+    - type: icontains
+      value: "accurate"
+
+- prompts:
+    - audio-support
+  vars:
+    query: Transcribe this conversation and identify different speakers.
+    audio_url: two_speakers.mp3
+  assert:
+    - type: icontains
+      value: "speaker"
+
+- prompts:
+    - audio-support
+  vars:
+    query: Transcribe this audio. There may be some background noise.
+    audio_url: noisy_recording.mp3
+  assert:
+    - type: icontains
+      value: "noise"
+
+- prompts:
+    - audio-support
+  vars:
+    query: Listen to this meeting recording and provide a summary with action items.
+    audio_url: meeting_recording.mp3
+  assert:
+    - type: icontains
+      value: "summary"
+    - type: icontains
+      value: "action"
+
+- prompts:
+    - audio-support
+  vars:
+    query: Transcribe this technical presentation about machine learning.
+    audio_url: technical_talk.mp3
+  assert:
+    - type: icontains
+      value: "machine learning"
+
+- prompts:
+    - audio-support
+  vars:
+    query: Transcribe this Spanish audio clip.
+    audio_url: spanish_speech.mp3
+  assert:
+    - type: icontains
+      value: "Spanish"
+
+- prompts:
+    - audio-support
+  vars:
+    query: What sounds can you hear in this audio clip?
+    audio_url: ambient_sounds.mp3
+  assert:
+    - type: icontains
+      value: "sound"
+
+- prompts:
+    - audio-support
+  vars:
+    query: What is the emotional tone of the speaker in this audio?
+    audio_url: emotional_speech.mp3
+  assert:
+    - type: icontains
+      value: "tone"

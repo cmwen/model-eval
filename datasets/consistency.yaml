@@ -1,0 +1,93 @@
+- prompts:
+    - consistency
+  vars:
+    query: What is the capital of France?
+  repeat: 5
+  assert:
+    - type: icontains
+      value: "Paris"
+
+- prompts:
+    - consistency
+  vars:
+    query: What is 2 + 2?
+  repeat: 5
+  assert:
+    - type: icontains
+      value: "4"
+
+- prompts:
+    - consistency
+  vars:
+    query: How many days are in a week?
+  repeat: 5
+  assert:
+    - type: icontains
+      value: "7"
+
+- prompts:
+    - consistency
+  vars:
+    query: What is the largest planet in our solar system?
+  repeat: 5
+  assert:
+    - type: icontains
+      value: "Jupiter"
+
+- prompts:
+    - consistency
+  vars:
+    query: List the first 5 elements of the periodic table in order.
+  repeat: 5
+  assert:
+    - type: icontains
+      value: "Hydrogen"
+    - type: icontains
+      value: "Boron"
+
+- prompts:
+    - consistency
+  vars:
+    query: Write a short haiku about spring.
+  repeat: 5
+  assert:
+    - type: not-contains
+      value: "error"
+
+- prompts:
+    - consistency
+  vars:
+    query: If all roses are flowers and all flowers need water, do roses need water? Explain your reasoning.
+  repeat: 5
+  assert:
+    - type: icontains
+      value: "Yes"
+    - type: icontains
+      value: "roses"
+
+- prompts:
+    - consistency
+  vars:
+    query: My name is Alice. What is my name?
+  repeat: 5
+  assert:
+    - type: icontains
+      value: "Alice"
+
+- prompts:
+    - consistency
+  vars:
+    query: Explain quantum computing in one sentence.
+  repeat: 5
+  assert:
+    - type: icontains
+      value: "quantum"
+
+- prompts:
+    - consistency
+  vars:
+    query: What is the approximate speed of light?
+  repeat: 5
+  assert:
+    - type: icontains
+      value: "299,792"

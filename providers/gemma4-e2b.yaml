@@ -1,0 +1,5 @@
+id: localai:chat:google/gemma-4-e2b
+label: Gemma 4 E2B
+config:
+    temperature: 0
+    apiBaseUrl: http://localhost:1234/v1

@@ -1,0 +1,195 @@
+- description: Extracting a person record with exact field names
+  prompts:
+    - structured-output
+  vars:
+    query: |
+      Extract the person's information from this text and return JSON only.
+      Use this exact JSON object structure and key names:
+      {
+        "name": "string",
+        "age": number,
+        "job": "string",
+        "company": "string"
+      }
+      Text: "John Smith is 32 years old and works as a software engineer at Google."
+  assert:
+    - type: is-json
+      value:
+        type: object
+        required: [name, age, job, company]
+        properties:
+          name:
+            type: string
+          age:
+            type: number
+          job:
+            type: string
+          company:
+            type: string
+
+- description: Extracting an order with nested customer and item fields
+  prompts:
+    - structured-output
+  vars:
+    query: |
+      Convert this order into JSON only.
+      Use this exact JSON object structure and key names:
+      {
+        "orderId": "string",
+        "customer": {
+          "name": "string",
+          "email": "string"
+        },
+        "items": [
+          {
+            "name": "string",
+            "quantity": number,
+            "unitPrice": number,
+            "lineTotal": number
+          }
+        ],
+        "total": number
+      }
+      Order:
+      Order #12345 for customer Jane Doe (jane@email.com)
+      - 2x Widget A at $10.00 each
+      - 1x Widget B at $25.00
+  assert:
+    - type: is-json
+      value:
+        type: object
+        required: [orderId, customer, items, total]
+        properties:
+          orderId:
+            type: string
+          customer:
+            type: object
+            required: [name, email]
+            properties:
+              name:
+                type: string
+              email:
+                type: string
+          items:
+            type: array
+            minItems: 2
+            items:
+              type: object
+              required: [name, quantity, unitPrice, lineTotal]
+              properties:
+                name:
+                  type: string
+                quantity:
+                  type: number
+                unitPrice:
+                  type: number
+                lineTotal:
+                  type: number
+          total:
+            type: number
+
+- description: Returning a prime-number array with the requested keys
+  prompts:
+    - structured-output
+  vars:
+    query: |
+      Return JSON only.
+      Use this exact JSON array structure:
+      [
+        {
+          "value": number,
+          "position": number,
+          "isEven": boolean
+        }
+      ]
+      Generate the first 5 prime numbers.
+      Use a 1-based value for "position".
+  assert:
+    - type: is-json
+      value:
+        type: array
+        minItems: 5
+        items:
+          type: object
+          required: [value, position, isEven]
+          properties:
+            value:
+              type: number
+            position:
+              type: number
+            isEven:
+              type: boolean
+
+- description: Extracting meeting details from text that includes attendees and duration
+  prompts:
+    - structured-output
+  vars:
+    query: |
+      Extract meeting details from this email and return JSON only.
+      Use this exact JSON object structure and key names:
+      {
+        "date": "string",
+        "time": "string",
+        "location": "string",
+        "topic": "string",
+        "attendees": ["string"],
+        "durationMinutes": number
+      }
+      Email:
+      "Hi team, let's meet on March 15, 2024 at 2:30 PM in Conference Room B with Sarah, Mike, and Priya for a 45-minute discussion on Q1 results."
+  assert:
+    - type: is-json
+      value:
+        type: object
+        required: [date, time, location, topic, attendees, durationMinutes]
+        properties:
+          date:
+            type: string
+          time:
+            type: string
+          location:
+            type: string
+          topic:
+            type: string
+          attendees:
+            type: array
+            minItems: 3
+            items:
+              type: string
+          durationMinutes:
+            type: number
+
+- description: Classifying feedback with explicit sentiment labels
+  prompts:
+    - structured-output
+  vars:
+    query: |
+      Classify these customer feedback entries and return JSON only.
+      Use this exact JSON array structure:
+      [
+        {
+          "id": number,
+          "text": "string",
+          "sentiment": "positive | negative | neutral"
+        }
+      ]
+      Feedback entries:
+      1. "Great product, love it!"
+      2. "Shipping was delayed by 2 weeks"
+      3. "Works as expected"
+  assert:
+    - type: is-json
+      value:
+        type: array
+        minItems: 3
+        items:
+          type: object
+          required: [id, text, sentiment]
+          properties:
+            id:
+              type: number
+            text:
+              type: string
+            sentiment:
+              type: string
+              enum: [positive, negative, neutral]

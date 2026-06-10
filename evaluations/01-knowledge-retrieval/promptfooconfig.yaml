@@ -3,80 +3,77 @@
 description: Knowledge retrieval benchmark
 
 prompts:
-  - |
-      You are a helpful assistant that provides accurate, concise answers to factual questions.
-      Answer directly and do not add extra filler.
+    - |
+        You are a helpful assistant that provides accurate, concise answers to factual questions.
+        Answer directly and do not add extra filler.
 
-      Question: {{query}}
+        Question: {{query}}
 
 providers:
-  - id: openai:chat:gpt-oss:20b
-    config:
-      apiBaseUrl: http://localhost:11434/v1
-      temperature: 0
+    - file://../../providers/gemma-e2b.yaml
+    - file://../../providers/gemma-e4b.yaml
 
 tests:
-  - vars:
-      query: What year did World War II end?
-    assert:
-      - type: icontains
-        value: "1945"
+    - vars:
+          query: What year did World War II end?
+      assert:
+          - type: icontains
+            value: "1945"
 
-  - vars:
-      query: Who wrote the play Hamlet?
-    assert:
-      - type: icontains
-        value: "William Shakespeare"
+    - vars:
+          query: Who wrote the play Hamlet?
+      assert:
+          - type: icontains
+            value: "William Shakespeare"
 
-  - vars:
-      query: What is the capital of Australia?
-    assert:
-      - type: icontains
-        value: "Canberra"
+    - vars:
+          query: What is the capital of Australia?
+      assert:
+          - type: icontains
+            value: "Canberra"
 
-  - vars:
-      query: What is the chemical symbol for gold?
-    assert:
-      - type: icontains
-        value: "Au"
+    - vars:
+          query: What is the chemical symbol for gold?
+      assert:
+          - type: icontains
+            value: "Au"
 
-  - vars:
-      query: How many planets are in our solar system?
-    assert:
-      - type: icontains
-        value: "8"
+    - vars:
+          query: How many planets are in our solar system?
+      assert:
+          - type: icontains
+            value: "Eight"
 
-  - vars:
-      query: What is the speed of light in a vacuum?
-    assert:
-      - type: icontains
-        value: "299,792,458"
+    - vars:
+          query: What is the speed of light in a vacuum?
+      assert:
+          - type: icontains
+            value: "299,792,458"
 
-  - vars:
-      query: What does HTTP stand for?
-    assert:
-      - type: icontains
-        value: "HyperText Transfer Protocol"
+    - vars:
+          query: What does HTTP stand for?
+      assert:
+          - type: icontains
+            value: "HyperText Transfer Protocol"
 
-  - vars:
-      query: What is the time complexity of binary search?
-    assert:
-      - type: icontains
-        value: "O(log n)"
+    - vars:
+          query: What is the time complexity of binary search?
+      assert:
+          - type: icontains
+            value: "O(log n)"
 
-  - vars:
-      query: Brief history of Wikipedia.
-    assert:
-      - type: icontains
-        value: "2001"
-      - type: icontains
-        value: "Jimmy Wales"
+    - vars:
+          query: Brief history of Wikipedia.
+      assert:
+          - type: icontains
+            value: "2001"
+          - type: icontains
+            value: "Jimmy Wales"
 
-  - vars:
-      query: What are the three laws of thermodynamics?
-    assert:
-      - type: icontains
-        value: "conservation of energy"
-      - type: icontains
-        value: "entropy"
-
+    - vars:
+          query: What are the three laws of thermodynamics?
+      assert:
+          - type: icontains
+            value: "conservation of energy"
+          - type: icontains
+            value: "entropy"
